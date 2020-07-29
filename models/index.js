@@ -1,23 +1,3 @@
-// // NOTE: All of the relations are established in the model field
-// const User = require('./User');
-// const Post = require('./Post');
-// const Image = require('./Image');
-// const Story = require('./Story');
-// const Message = require('./Message');
-// const Comments = require('./Comments');
-// const UserFollow = require('./UserFollow');
-
-
-// export default {
-// 	User,
-// 	UserFollow,
-// 	Post,
-// 	Message,
-// 	Story,
-// 	Comments,
-// 	Image
-// };
-
 const Sequelize = require('sequelize');
 const config = require('../configs/db.config');
 
@@ -44,6 +24,7 @@ db.image.belongsTo(db.user);
 
 db.image.hasOne(db.post);
 
+// Check db connection.
 sequelize.authenticate()
 	.then(() => console.log('Connection has been established successfully.'))
 	.catch(error => console.error('Unable to connect to the database:', error));

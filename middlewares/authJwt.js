@@ -26,23 +26,24 @@ verifyToken = (req, res, next) => {
 };
 
 /**
+ * Add the user to the request by decrypting the token.
  * 
- * 
+ * @return {next}
  */
 getUserByToken = async (req, res, next) => {
 	let user;
 	const token = req.headers['x-access-token'];
 	const decoded = jwt.decode(token, { complete: true });
-	const { id } = decoded.payload
+	const { id } = decoded.payload;
 
 	try {
 		user = await User.findOne({ where: { id } })
 	} catch (error) {
-		return statusAndMessage(500, res, error.message);;
+		return statusAndMessage(500, res, error.message);
 	}
 
 	if (!user) {
-		return res.status(500).send({ message: `Token isn't good` });
+		return statusAndMessage(500, res, `Token isn't good`);
 	}
 
 	req.user = user;

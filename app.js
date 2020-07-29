@@ -6,13 +6,14 @@ const corsOptions = {
 	origin: 'http://localhost:3000'
 };
 
-// Middleware import
+// Middleware import.
 const { error404, globalHeader } = require('./middlewares');
 
 // Routes imports
 const authRoute = require('./routes/authRoute');
 const postRoute = require('./routes/postRoute');
 
+// Define the database.
 const db = require('./models');
 
 const app = express();

@@ -1,7 +1,6 @@
 const db = require("../models");
 const User = db.user;
 
-
 /**
  * Check if user with that email and/or username exist.
  * 
