@@ -8,7 +8,7 @@ router.post('/signup', [verifySignUp.checkDuplicateUsernameOrEmail], controller.
 
 router.post('/signin', controller.postSignin);
 
-router.post('/delete',[authJwt.verifyToken], controller.postDelete);
+router.post('/delete', [authJwt.verifyToken], controller.postDelete);
 
 router.get('/all', controller.getAll);
 

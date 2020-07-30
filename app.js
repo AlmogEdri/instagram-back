@@ -10,8 +10,8 @@ const corsOptions = {
 const { error404, globalHeader } = require('./middlewares');
 
 // Routes imports
-const authRoute = require('./routes/authRoute');
-const postRoute = require('./routes/postRoute');
+const authRoute = require('./routes/auth.route');
+const postRoute = require('./routes/post.route');
 
 // Define the database.
 const db = require('./models');
