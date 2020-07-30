@@ -22,7 +22,8 @@ db.post.belongsTo(db.user);
 db.user.hasMany(db.image);
 db.image.belongsTo(db.user);
 
-db.image.hasOne(db.post);
+db.post.hasMany(db.image);
+db.image.belongsTo(db.post);
 
 // Check db connection.
 sequelize.authenticate()

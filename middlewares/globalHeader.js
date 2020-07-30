@@ -4,7 +4,7 @@
  * @return {next}
  */
 module.exports = (req, res, next) => {
-	res.header(
+	res.setHeader(
 		'Access-Control-Allow-Headers',
 		'x-access-token, Origin, Content-Type, Accept'
 	);

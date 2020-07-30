@@ -37,7 +37,7 @@ getUserByToken = async (req, res, next) => {
 	const { id } = decoded.payload;
 
 	try {
-		user = await User.findOne({ where: { id } })
+		user = await User.findByPk(id);
 	} catch (error) {
 		return statusAndMessage(500, res, error.message);
 	}

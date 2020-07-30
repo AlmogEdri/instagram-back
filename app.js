@@ -20,9 +20,9 @@ const app = express();
 
 // Middleware
 app.use(cors(corsOptions));
+app.use(globalHeader);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(globalHeader);
 
 // Routes
 app.use('/auth', authRoute);
