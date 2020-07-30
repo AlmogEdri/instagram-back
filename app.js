@@ -9,10 +9,6 @@ const corsOptions = {
 // Middleware import.
 const { error404, globalHeader } = require('./middlewares');
 
-// Routes imports
-const authRoute = require('./routes/auth.route');
-const postRoute = require('./routes/post.route');
-
 // Define the database.
 const db = require('./models');
 
@@ -24,9 +20,8 @@ app.use(globalHeader);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Routes
-app.use('/auth', authRoute);
-app.use('/post', postRoute);
+// Routes Initializer
+require('./routes')(app);
 
 // Catch 404 and forward to error handler
 app.use(error404);
