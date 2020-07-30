@@ -67,39 +67,3 @@ exports.postSignin = async (req, res) => {
 		accessToken
 	});
 };
-
-// TODO: user can only delete his own profile UNLESS it's admin
-exports.postDelete = async (req, res) => {
-	let user;
-	const { id } = req.body;
-	const message = {
-		error: `This user isn't existing, or you don't have permission to delete that user`,
-		success: `User id ${id} was deleted successfully.`
-	};
-
-	try {
-		user = await User.findOne({ id });
-	} catch (error) {
-		return statusAndMessage(500, res, error.message);;
-	}
-
-	if (!user) {
-		return res.status(500).send({ message: message.error });
-	}
-
-	User.destroy({ where: { id } })
-		.then(() => res.status(200).send({ message: message.success }))
-		.catch(error => res.status(500).send({ message: error.message }));
-};
-
-exports.getAll = async (req, res) => {
-	let users;
-
-	try {
-		users = await User.findAll();
-	} catch (error) {
-		return statusAndMessage(500, res, error.message);;
-	}
-
-	return res.status(200).json({ users })
-}

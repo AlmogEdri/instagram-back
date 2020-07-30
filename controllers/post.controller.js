@@ -1,12 +1,9 @@
 const { statusAndMessage } = require('../utils/helper');
 const db = require("../models");
 const Post = db.post;
-const User = db.user;
 const Image = db.image;
-const imgConfig = require('../configs/multer.config').img;
 
 exports.postCreate = async (req, res) => {
-	// return res.status(200).json(imgConfig).send();
 	const { title, content } = req.body;
 	const file = req.file;
 	let post, image;
@@ -68,8 +65,4 @@ exports.getImages = async (req, res) => {
 	} catch (error) {
 		return statusAndMessage(500, res, error.message);
 	}
-
-
-
-
 }
