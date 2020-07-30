@@ -11,14 +11,19 @@ const router = Router();
 
 router.post('/create', [authJwt.getUserByToken], upload.single('postImg'), controller.postCreate);
 
-router.post('/:userId', [authJwt.verifyToken, authJwt.getUserByToken], controller.getUserPosts);
+router.get('/user/:userId', [authJwt.verifyToken, authJwt.getUserByToken], controller.getUserPosts);
 
-router.get('/all', [authJwt.verifyToken], controller.getAll);
+router.post('/delete/:postId', [authJwt.verifyToken, authJwt.getUserByToken], controller.postDelete);
 
-router.get('/images', controller.getImages);
+router.post('/edit/:postId', [authJwt.verifyToken, authJwt.getUserByToken], controller.postEdit);
 
-// Delete Post
+// For tests
+router.get('/images', controller.getAllImages);
 
-// Edit post
+// For tests
+router.get('/all', controller.getAll);
+
+// Need to be last
+router.get('/:postId', [authJwt.verifyToken, authJwt.getUserByToken], controller.getPostById);
 
 module.exports = router;

@@ -6,63 +6,81 @@ const Image = db.image;
 exports.postCreate = async (req, res) => {
 	const { title, content } = req.body;
 	const file = req.file;
-	let post, image;
 
 	// Create new post using user association.
 	try {
-		post = await req.user.createPost({ title, content });
-		image = await post.createImage({
+		// This need to be association with one step and not two.
+		const post = await req.user.createPost({ title, content });
+		const image = await post.createImage({
 			name: file.filename,
 			display: true,
 			userId: req.user.id
 		});
+
+		return res.status(200).send({ message: `Post with id: ${post.id} was created.`, image });
 	} catch (error) {
 		return statusAndMessage(500, res, error.message);
 	}
+};
 
-	if (!post) {
-		return statusAndMessage(500, res, `Post wasn't created.`);
+exports.getPostById = async (req, res) => {
+	const { postId } = req.params;
+
+	try {
+		const post = await Post.findByPk(postId);
+		const images = await post.getImages();
+
+		return res.status(200).send({ post, images });
+	} catch (error) {
+		return statusAndMessage(500, res, error.massage);
 	}
-
-	return res.status(200).send({ message: `Post with id: ${post.id} was created.`, post, image, file });
 }
 
 exports.getUserPosts = async (req, res) => {
-	let posts;
 	const { userId } = req.params;
 
 	try {
-		posts = await Post.findAll({ where: { userId } });
+		const posts = await Post.findAll({ where: { userId } });
+
+		return res.status(200).json({ posts });
 	} catch (error) {
 		return statusAndMessage(500, res, error.massage);
-
 	}
-
-	if (!posts.length) {
-		return statusAndMessage(500, res, `No posts for this user.`);
-	}
-
-	return res.status(200).json({ posts })
-}
+};
 
 exports.getAll = async (req, res) => {
-	let posts;
-
 	try {
-		posts = await Post.findAll();
+		const posts = await Post.findAll();
+
+		return res.status(200).json({ posts });
 	} catch (error) {
 		return statusAndMessage(500, res, error.message);;
 	}
+};
 
-	return res.status(200).json({ posts })
-}
-
-exports.getImages = async (req, res) => {
-	let images;
+exports.getAllImages = async (req, res) => {
 	try {
-		images = await Image.findAll();
-		return res.status(200).json(images).end()
+		const images = await Image.findAll();
+
+		return res.status(200).json({ images }).end();
 	} catch (error) {
 		return statusAndMessage(500, res, error.message);
 	}
-}
+};
+
+exports.postDelete = async (req, res) => {
+	const { postId } = req.params;
+
+	try {
+		let post = await Post.findByPk(postId);
+		post.destroy()
+			.then(() => statusAndMessage(200, res, `Post id ${postId} was deleted successfully.`));
+	} catch (error) {
+		statusAndMessage(200, res, error.message)
+	}
+};
+
+//TODO: build the functionality.
+exports.postEdit = async (req, res) => {
+	const { postId } = req.params;
+};
